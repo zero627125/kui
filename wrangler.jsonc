@@ -1,0 +1,42 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "kui",
+  "main": "src/worker.js",
+  "compatibility_date": "2026-07-15",
+  "workers_dev": true,
+  "vars": {
+    "ADMIN_USERNAME": "zero528211",
+    "ADMIN_PASSWORD": "zero627125",
+    "PROXY_USER": "zero528211",
+    "PROXY_PASS": "zero627125"
+  },
+  "assets": {
+    "directory": "static",
+    "binding": "ASSETS",
+    "run_worker_first": ["/api", "/api/*", "/health", "/agent/ws", "/dashboard/*", "/public/*", "/notify", "/public-policy", "/frequency-policy"]
+  },
+  "d1_databases": [
+    {
+      "binding": "DB","database_id": "6de4012d-a992-4574-a157-2d0a67a44a49","database_name": "kui66"
+    }
+  ],
+  "triggers": {
+    "crons": ["*/5 * * * *"]
+  },
+  "durable_objects": {
+    "bindings": [
+      { "name": "VPS_PRESENCE", "class_name": "VpsPresence" },
+      { "name": "DASHBOARD_HUB", "class_name": "DashboardHub" }
+    ]
+  },
+  "migrations": [
+    {
+      "tag": "v1",
+      "new_sqlite_classes": ["VpsPresence", "DashboardHub"]
+    }
+  ],
+  "observability": {
+    "enabled": true,
+    "head_sampling_rate": 0.1
+  }
+}
